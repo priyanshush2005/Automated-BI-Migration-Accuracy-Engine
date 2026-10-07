@@ -1,0 +1,127 @@
+{
+  "results": {
+    "calc_1": {
+      "predicted_dax": "DIVIDE(SUM(Table[Profit]), SUM(Table[Sales]))",
+      "visual_mapping": "clustered column chart",
+      "confidence_score": 0.9,
+      "is_corrected": true,
+      "confidence_level": "HIGH",
+      "confidence_reasons": [
+        "dependencies resolved (+0.25)",
+        "DAX passed syntax/column self-check (+0.45)",
+        "visual type recognised (+0.10)",
+        "compared against existing DAX (+0.10)"
+      ],
+      "problems_in_existing_dax": [
+        "columns are not qualified (use Table[Column])",
+        "numerator and denominator are swapped"
+      ],
+      "supporting_measures": {}
+    },
+    "calc_2": {
+      "predicted_dax": "CALCULATE(SUM(Table[Sales]), ALLEXCEPT(Table, Table[Region]))",
+      "visual_mapping": "no visual provided",
+      "confidence_score": 0.8,
+      "is_corrected": true,
+      "confidence_level": "HIGH",
+      "confidence_reasons": [
+        "dependencies resolved (+0.25)",
+        "DAX passed syntax/column self-check (+0.45)",
+        "compared against existing DAX (+0.10)"
+      ],
+      "problems_in_existing_dax": [
+        "columns are not qualified (use Table[Column])",
+        "FIXED LOD ignored (needs CALCULATE + ALLEXCEPT)"
+      ],
+      "supporting_measures": {}
+    },
+    "calc_3": {
+      "predicted_dax": "IF(CALCULATE(SUM(Table[Sales]), ALLEXCEPT(Table, Table[Region])) > 10000, DIVIDE(AVERAGE(Table[Profit]), SUM(Table[Sales])), CALCULATE(SUM(Table[Profit]), ALLSELECTED(Table[Region])))",
+      "visual_mapping": "no visual provided",
+      "confidence_score": 0.6,
+      "is_corrected": true,
+      "confidence_level": "MEDIUM",
+      "confidence_reasons": [
+        "dependencies resolved (+0.25)",
+        "DAX passed syntax/column self-check (+0.45)",
+        "compared against existing DAX (+0.10)",
+        "assumption: WINDOW_SUM assumed to run along 'Region' (-0.10)",
+        "assumption: no visual given: used FIXED dimension 'Region' (-0.10)"
+      ],
+      "problems_in_existing_dax": [
+        "AVG is not a DAX function (use AVERAGE)",
+        "FIXED LOD ignored (needs CALCULATE + ALLEXCEPT)",
+        "table calculation ignored (needs ALLSELECTED)"
+      ],
+      "supporting_measures": {}
+    },
+    "calc_4": {
+      "predicted_dax": "IF(SUM(Table[Sales]) > 5000, \"High\", \"Low\")",
+      "visual_mapping": "no visual provided",
+      "confidence_score": 0.8,
+      "is_corrected": true,
+      "confidence_level": "HIGH",
+      "confidence_reasons": [
+        "dependencies resolved (+0.25)",
+        "DAX passed syntax/column self-check (+0.45)",
+        "compared against existing DAX (+0.10)"
+      ],
+      "problems_in_existing_dax": [
+        "columns are not qualified (use Table[Column])",
+        "returns numbers instead of the text labels"
+      ],
+      "supporting_measures": {}
+    },
+    "dependencies": {
+      "predicted_dax": "IF([Step2] > 0.2, \"High\", \"Low\")",
+      "visual_mapping": "no visual provided",
+      "confidence_score": 0.7,
+      "is_corrected": false,
+      "confidence_level": "MEDIUM",
+      "confidence_reasons": [
+        "dependencies resolved (+0.25)",
+        "DAX passed syntax/column self-check (+0.45)"
+      ],
+      "problems_in_existing_dax": [],
+      "supporting_measures": {
+        "Step1": "SUM(Table[Sales]) - SUM(Table[Cost])",
+        "Step2": "DIVIDE([Step1], SUM(Table[Sales]))"
+      }
+    },
+    "xml:RunningSales": {
+      "predicted_dax": "CALCULATE(SUM(Table[Sales]), FILTER(ALLSELECTED(Table[Date]), Table[Date] <= MAX(Table[Date])))",
+      "visual_mapping": "line chart",
+      "confidence_score": 0.7,
+      "is_corrected": false,
+      "confidence_level": "MEDIUM",
+      "confidence_reasons": [
+        "dependencies resolved (+0.25)",
+        "DAX passed syntax/column self-check (+0.45)",
+        "visual type recognised (+0.10)",
+        "assumption: RUNNING_SUM assumed to run along 'Date' (-0.10)"
+      ],
+      "problems_in_existing_dax": [],
+      "supporting_measures": {}
+    },
+    "xml:RankSales": {
+      "predicted_dax": "RANKX(ALLSELECTED(Table[Region]), CALCULATE(SUM(Table[Sales])), , DESC)",
+      "visual_mapping": "no visual provided",
+      "confidence_score": 0.5,
+      "is_corrected": false,
+      "confidence_level": "LOW",
+      "confidence_reasons": [
+        "dependencies resolved (+0.25)",
+        "DAX passed syntax/column self-check (+0.45)",
+        "assumption: RANK assumed to run along 'Region' (-0.10)",
+        "assumption: no visual given: assumed dimension 'Region' (-0.10)"
+      ],
+      "problems_in_existing_dax": [],
+      "supporting_measures": {}
+    }
+  },
+  "benchmark": {
+    "graded": 3,
+    "before_correct": 0,
+    "after_correct": 3
+  }
+}
