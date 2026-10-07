@@ -16,7 +16,7 @@ engine.py glues steps 2-6 together.
 Before (existing DAX correct): 0 of 3 gradable | After (engine): 3 of 3
 calc_3 cannot be graded: its ground truth contains "..." (incomplete).
 
-## Limits (say them first in an interview)
+## Limits
 - Regex rules: no nested IFs, no multi-dimension FIXED, no arithmetic inside IF branches.
 - Table calcs assume they run along the view's last dimension (an assumption, lowers confidence).
-- Grading compares normalized text, not numbers. Next step: run both versions on the CSV.
+- Grading compares normalized text, not numbers. 
